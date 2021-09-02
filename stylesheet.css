@@ -9,3 +9,17 @@ body
     width: 50%;
     padding: 10px;
 }
+#energyText
+{
+    font-family: fantasy;
+    font-size: xx-large;
+    letter-spacing: 0.1em;
+}
+#energyCount
+{
+    color: seashell;
+}
+.clearHistory
+{
+    margin-top: 2px;
+}
