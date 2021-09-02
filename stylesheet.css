@@ -1,0 +1,11 @@
+body
+{
+    background-color: slategray;
+}
+.centered
+{
+    color: tomato;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
