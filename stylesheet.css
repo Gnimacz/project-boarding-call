@@ -1,44 +1,42 @@
-body
-{
+body {
     background-color: slategray;
 }
-.centered
-{
+
+.centered {
     color: tomato;
     margin: auto;
     width: 50%;
     padding: 10px;
 }
-#energyText
-{
+
+#energyText {
     font-family: fantasy;
     font-size: xx-large;
     letter-spacing: 0.1em;
 }
-#energyCount
-{
+
+#energyCount {
     color: seashell;
 }
-.clearHistory
-{
+
+.clearHistory {
     margin-top: 2px;
     margin-bottom: 10px;
 }
-.cardHolder
-{
-    display:flex;
-    flex-wrap: nowrap;
-    flex-direction: column;
+
+.cardHolder {
     background-color: dodgerblue;
     width: auto;
     height: auto;
 }
-.cardDiv
-{
+
+.cardDiv {
+    display:flex;
+    flex-flow: row nowrap;
     margin: 5px;
 }
-.cardImage
-{
+
+.cardImage {
     margin: 5px;
     width: 30%;
     height: auto;
