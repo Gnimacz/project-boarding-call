@@ -16,21 +16,21 @@
                     <p>ENERGY</p>
                     <p id="energyCount"> {{ energy }} </p>
                 </div>
-                <button @click="energy += 1">Add 1 Energy</button>
-                <button @click="addCard">Add Card</button>
-                <button @click="removeEnergy">Remove 1 Energy</button>
-                <button class="rollButton" @click="rollDie">Roll Die</button>
-                <button class="resetEnergy" @click="energy = 3">Reset Energy</button>
+                <button @click="energy += 1; updateCookies()">Add 1 Energy</button>
+                <button @click="addCard(rnd())">Add Card</button>
+                <button @click="removeEnergy()">Remove 1 Energy</button>
+                <button class="rollButton" @click="rollDie()">Roll Die</button>
+                <button class="resetEnergy" @click="energy = 3; updateCookies()">Reset Energy</button>
                 <div id="rollHistory">
                     <p>
                         {{ results.join(', ') }}
                     </p>
-                    <button class="clearHistory" @click="results = []">Clear Roll History</button>
+                    <button class="clearHistory" @click="results = []; updateCookies()">Clear Roll History</button>
                 </div>
                 <div class="cardDiv">
-                    <div class="card" v-for="index in cards">
+                    <div class="card" v-for="(name, index) in cards">
                         <a href="javascript:void(0);" @click="deleteCard(index)">
-                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                            <img :src="'./cards/' + name + '.jpg'" class="cardImage" alt="card">
                         </a>
                     </div>
                 </div>
@@ -51,28 +51,44 @@
                     if ($cookies.get('results')) {
                         this.results = ($cookies.get('results')).split(',')
                     }
+                    if ($cookies.get('cards')) {
+                        this.cards = ($cookies.get('cards')).split(',')
+                    }
                 },
                 methods: {
-                    addCard: function(e) {
-                        this.cards.push({'card': e})
+                    addCard(name) {
+                        this.cards.push(name)
+                        this.updateCookies()
                     },
-                    deleteCard: function(index) {
-                        this.cards.splice(index,1)
+                    rnd() {
+                        let num = Math.floor(Math.random() * 100)
+                        if (num <= 50) return 'common'
+                        else if (num <= 80) return 'uncommon'
+                        else if (num <= 95) return 'rare'
+                        else return 'epic'
                     },
-                    removeEnergy: function() {
+                    deleteCard(i) {
+                        this.cards.splice(i,1)
+                        this.updateCookies()
+                    },
+                    fn(a) {console.log(a)},
+                    removeEnergy() {
                         if (this.energy > 0) {
                             this.energy -= 1
                         }
+                        this.updateCookies()
                     },
-                    rollDie: function() {
+                    rollDie() {
                         let rolled = Math.floor(Math.random() * 6) + 1
                         this.energy += rolled
                         this.results = this.results.concat(rolled)
+                        this.updateCookies()
 
                     },
-                    updateCookies: function() {
+                    updateCookies() {
                         $cookies.set('energy', this.energy)
                         $cookies.set('results', this.results)
+                        $cookies.set('cards', this.cards)
                     }
                 }
             })
