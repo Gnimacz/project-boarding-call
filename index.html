@@ -6,8 +6,8 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="stylesheet.css">
-          <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-          <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+        <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
     </head>
     <body>
         <div id="app">
@@ -16,32 +16,52 @@
                     <p>ENERGY</p>
                     <p id="energyCount"> {{ energy }} </p>
                 </div>
-                <button v-on:click="energy   += 1">Add 1 Energy</button>
+                <button v-on:click="energy += 1">Add 1 Energy</button>
                 <button v-on:click="removeEnergy">Remove 1 Energy</button>
                 <button class="rollButton" v-on:click="rollDie">Roll Die</button>
-                <button class="resetEnergy" v-on:click="energy = 0">Reset Energy</button>
+                <button class="resetEnergy" v-on:click="energy = 3">Reset Energy</button>
                 <div id="rollHistory">
                     <p>
                         {{ results.join(', ') }}
                     </p>
                     <button class="clearHistory" v-on:click="results = []">Clear Roll History</button>
                 </div>
-                <div class="cardHolder">
-                    <div class="cardDiv">
-                        <div>
-                            <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
-                                <img src="cards/Card_Concept.png" class="cardImage" alt="card">
-                            </a>
-                        </div>
-                        <div>
-                            <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
-                                <img src="cards/Card_Concept.png" class="cardImage" alt="card">
-                            </a>
-                        </div>
-
+                <div class="cardDiv">
+                    <div class="card">
+                        <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
+                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                        </a>
                     </div>
-
-
+                    <div class="card">
+                        <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
+                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                        </a>
+                    </div>
+                    <div class="card">
+                        <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
+                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                        </a>
+                    </div>
+                    <div class="card">
+                        <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
+                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                        </a>
+                    </div>
+                    <div class="card">
+                        <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
+                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                        </a>
+                    </div>
+                    <div class="card">
+                        <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
+                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                        </a>
+                    </div>
+                    <div class="card">
+                        <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
+                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

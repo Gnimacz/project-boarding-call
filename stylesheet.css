@@ -1,5 +1,5 @@
 body {
-    background-color: slategray;
+    background-color: #303050;
 }
 
 .centered {
@@ -24,20 +24,19 @@ body {
     margin-bottom: 10px;
 }
 
-.cardHolder {
-    background-color: dodgerblue;
-    width: auto;
-    height: auto;
-}
-
 .cardDiv {
     display:flex;
-    flex-flow: row nowrap;
-    margin: 5px;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+}
+
+.card {
+    width: 20%;
+    padding: 5px;
 }
 
 .cardImage {
     margin: 5px;
-    width: 30%;
+    width: 100%;
     height: auto;
 }
