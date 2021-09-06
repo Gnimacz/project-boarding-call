@@ -1,0 +1,8 @@
+{
+  "name": "project-boarding-call",
+  "version": "1.0.0",
+  "dependencies": {
+    "vue": "^2.6.14",
+    "vue-cookies": "^1.7.4"
+  }
+}
