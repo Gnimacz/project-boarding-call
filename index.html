@@ -16,49 +16,20 @@
                     <p>ENERGY</p>
                     <p id="energyCount"> {{ energy }} </p>
                 </div>
-                <button v-on:click="energy += 1">Add 1 Energy</button>
-                <button v-on:click="removeEnergy">Remove 1 Energy</button>
-                <button class="rollButton" v-on:click="rollDie">Roll Die</button>
-                <button class="resetEnergy" v-on:click="energy = 3">Reset Energy</button>
+                <button @click="energy += 1">Add 1 Energy</button>
+                <button @click="addCard">Add Card</button>
+                <button @click="removeEnergy">Remove 1 Energy</button>
+                <button class="rollButton" @click="rollDie">Roll Die</button>
+                <button class="resetEnergy" @click="energy = 3">Reset Energy</button>
                 <div id="rollHistory">
                     <p>
                         {{ results.join(', ') }}
                     </p>
-                    <button class="clearHistory" v-on:click="results = []">Clear Roll History</button>
+                    <button class="clearHistory" @click="results = []">Clear Roll History</button>
                 </div>
                 <div class="cardDiv">
-                    <div class="card">
-                        <a href="javascript:void(0);" onclick="myFunction()">
-                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
-                        </a>
-                    </div>
-                    <div class="card">
-                        <a href="javascript:void(0);" onclick="myFunction()">
-                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
-                        </a>
-                    </div>
-                    <div class="card">
-                        <a href="javascript:void(0);" onclick="myFunction()">
-                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
-                        </a>
-                    </div>
-                    <div class="card">
-                        <a href="javascript:void(0);" onclick="myFunction()">
-                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
-                        </a>
-                    </div>
-                    <div class="card">
-                        <a href="javascript:void(0);" onclick="myFunction()">
-                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
-                        </a>
-                    </div>
-                    <div class="card">
-                        <a href="javascript:void(0);" onclick="myFunction()">
-                            <img src="cards/Card_Concept.png" class="cardImage" alt="card">
-                        </a>
-                    </div>
-                    <div class="card">
-                        <a href="javascript:void(0);" onclick="myFunction()">
+                    <div class="card" v-for="index in cards">
+                        <a href="javascript:void(0);" @click="deleteCard(index)">
                             <img src="cards/Card_Concept.png" class="cardImage" alt="card">
                         </a>
                     </div>
@@ -70,7 +41,8 @@
                 el: '#app',
                 data: {
                     energy: 3,
-                    results: []
+                    results: [],
+                    cards: []
                 },
                 beforeMount() {
                     if ($cookies.get('energy')) {
@@ -81,6 +53,12 @@
                     }
                 },
                 methods: {
+                    addCard: function(e) {
+                        this.cards.push({'card': e})
+                    },
+                    deleteCard: function(index) {
+                        this.cards.splice(index,1)
+                    },
                     removeEnergy: function() {
                         if (this.energy > 0) {
                             this.energy -= 1
@@ -89,8 +67,11 @@
                     rollDie: function() {
                         let rolled = Math.floor(Math.random() * 6) + 1
                         this.energy += rolled
-                        $cookies.set('energy', this.energy)
                         this.results = this.results.concat(rolled)
+
+                    },
+                    updateCookies: function() {
+                        $cookies.set('energy', this.energy)
                         $cookies.set('results', this.results)
                     }
                 }
