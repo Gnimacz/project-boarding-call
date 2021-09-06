@@ -22,4 +22,24 @@ body
 .clearHistory
 {
     margin-top: 2px;
+    margin-bottom: 10px;
+}
+.cardHolder
+{
+    display:flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    background-color: dodgerblue;
+    width: auto;
+    height: auto;
+}
+.cardDiv
+{
+    margin: 5px;
+}
+.cardImage
+{
+    margin: 5px;
+    width: 30%;
+    height: auto;
 }
