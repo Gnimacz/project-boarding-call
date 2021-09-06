@@ -21,12 +21,27 @@
                 <button class="rollButton" v-on:click="rollDie">Roll Die</button>
                 <button class="resetEnergy" v-on:click="energy = 0">Reset Energy</button>
                 <div id="rollHistory">
-                    <ul>
-                        <li v-for="result in results" :key="result">
-                            {{ result }}
-                        </li>
-                    </ul>
+                    <p>
+                        {{ results.join(', ') }}
+                    </p>
                     <button class="clearHistory" v-on:click="results = []">Clear Roll History</button>
+                </div>
+                <div class="cardHolder">
+                    <div class="cardDiv">
+                        <div>
+                            <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
+                                <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                            </a>
+                        </div>
+                        <div>
+                            <a href="javascript:void(0);" class="cardImage" onclick="myFunction()">
+                                <img src="cards/Card_Concept.png" class="cardImage" alt="card">
+                            </a>
+                        </div>
+
+                    </div>
+
+
                 </div>
             </div>
         </div>
@@ -35,18 +50,28 @@
                 el: '#app',
                 data: {
                     energy: 3,
-                    results: [2]
+                    results: []
+                },
+                beforeMount() {
+                    if ($cookies.get('energy')) {
+                        this.energy = parseInt($cookies.get('energy'))
+                    }
+                    if ($cookies.get('results')) {
+                        this.results = ($cookies.get('results')).split(',')
+                    }
                 },
                 methods: {
                     removeEnergy: function() {
                         if (this.energy > 0) {
-                            this.energy -= 1;
+                            this.energy -= 1
                         }
                     },
                     rollDie: function() {
-                        let rolled = Math.floor(Math.random() * 6) + 1;
-                        this.energy += rolled;
-                        this.results = this.results.concat(rolled);
+                        let rolled = Math.floor(Math.random() * 6) + 1
+                        this.energy += rolled
+                        $cookies.set('energy', this.energy)
+                        this.results = this.results.concat(rolled)
+                        $cookies.set('results', this.results)
                     }
                 }
             })
