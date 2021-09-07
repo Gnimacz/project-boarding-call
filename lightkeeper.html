@@ -13,7 +13,7 @@
         <div id="app">
             <div class="centered">
                 <div id="energyText">
-                    <a href="lightkeeper.html">Switch to lightkeeper</a>
+                    <a href="index.html ">Go back</a>
                     <p>ENERGY</p>
                     <p id="energyCount"> {{ energy }} </p>
                 </div>
@@ -29,7 +29,7 @@
                 <div class="cardDiv">
                     <div class="card" v-for="(card, index) in cards">
                         <a href="javascript:void(0);" @click="deleteCard(card, index)">
-                            <img :src="'./cards/' + card.name + '.png'" class="cardImage" alt="card">
+                            <img :src="'./lightkeeper/' + card.name + '.png'" class="cardImage" alt="card">
                         </a>
                     </div>
                 </div>
@@ -43,43 +43,22 @@
                 {
                     "common": [
 
-                        {"name": "EvadeTrap", "cost": 3},
-                        {"name": "CommonTeleport", "cost": 5},
-                        {"name": "Rum", "cost": -3},
-                        {"name": "RockSolidCommon", "cost": 3},
-                        {"name": "WeakPoison", "cost": 2}
+                        {"name": "DejaVuLK", "cost": 4},
+                        {"name": "Discard", "cost": 3},
+                        {"name": "DrainEnergy", "cost": 3},
+                        {"name": "Earthbending", "cost": 1},
+                        {"name": "EnergyDrain", "cost": 3},
+                        {"name": "Landslide", "cost": 3},
+                        {"name": "Petrify", "cost": 3},
+                        {"name": "Tidecaller", "cost": 4}
 
                     ],
                     "uncommon": [
 
-                        {"name": "DisarmTrap", "cost": 3},
-                        {"name": "RareTeleport", "cost": 4},
-                        {"name": "AgedRum", "cost": -5},
-                        {"name": "QuestionableRum", "cost": 5},
-                        {"name": "RockSolidRare", "cost": 5},
-                        {"name": "Disrupt", "cost": 5},
-                        {"name": "PotentPoison", "cost": 3},
-                        {"name": "Glue", "cost": 3},
-                        {"name": "Switcheroo", "cost": 6},
-                        {"name": "Dejavu", "cost": 4}
-
-                    ],
-                    "rare": [
-
-                        {"name": "LegendaryTeleport", "cost": 3},
-                        {"name": "CaptainsRum", "cost": -7},
-                        {"name": "Eyepatch", "cost": 4},
-                        {"name": "RockSolidLegendary", "cost": 6},
-                        {"name": "DisruptLegendary", "cost": 6},
-                        {"name": "SleepDart", "cost": 4},
-                        {"name": "TheOlSwitcheroo", "cost": 6},
-                        {"name": "Abduct", "cost": 5}
-
-                    ],
-                    "epic": [
-
-                        {"name": "Blackout", "cost": 8},
-                        {"name": "DisruptEpic", "cost": 8}
+                        {"name": "Chaos", "cost": 7},
+                        {"name": "Earthquake", "cost": 6},
+                        {"name": "Highmoon", "cost": 10},
+                        {"name": "Magn10", "cost": 8}
 
                     ]
                 }
@@ -90,7 +69,7 @@
                 el: '#app',
                 data: {
                     possibleCards: allCards, // Assigns cards in variable above to vue datapoint
-                    energy: 5,
+                    energy: 1,
                     results: [],
                     cards: []
                 },
@@ -119,10 +98,8 @@
                     rnd() {
                         let num = Math.floor(Math.random() * 100)
                         let rarity
-                        if (num <= 50) rarity = 'common'
-                        else if (num <= 80) rarity = 'uncommon'
-                        else if (num <= 95) rarity = 'rare'
-                        else rarity = 'epic'
+                        if (num <= 80) rarity = 'common'
+                        else if (num <= 81) rarity = 'uncommon'
                         return [rarity, this.selectImage(rarity)]
                     },
                     selectImage(num){
