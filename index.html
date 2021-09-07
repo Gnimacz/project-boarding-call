@@ -20,7 +20,7 @@
                 <button @click="addCard()">Add Card</button>
                 <button @click="removeEnergy()">Remove 1 Energy</button>
                 <button class="rollButton" @click="rollDie()">Roll Die</button>
-                <button class="resetEnergy" @click="energy = 3; updateCookies()">Reset Energy</button>
+                <button class="resetEnergy" @click="energy = 5; updateCookies()">Reset Energy</button>
                 <div id="rollHistory">
                     <p> {{ results.join(', ') }} </p>
                     <button class="clearHistory" @click="results = []; updateCookies()">Clear Roll History</button>
@@ -28,7 +28,7 @@
                 <div class="cardDiv">
                     <div class="card" v-for="(card, index) in cards">
                         <a href="javascript:void(0);" @click="deleteCard(card, index)">
-                            <img :src="'./cards/' + card.name + '.jpg'" class="cardImage" alt="card">
+                            <img :src="'./cards/' + card.name + '.png'" class="cardImage" alt="card">
                         </a>
                     </div>
                 </div>
@@ -42,26 +42,43 @@
                 {
                     "common": [
 
-                        {"name": "oddish", "cost": 1},
-                        {"name": "fake_oddish", "cost": 1}
+                        {"name": "EvadeTrap", "cost": 3},
+                        {"name": "CommonTeleport", "cost": 5},
+                        {"name": "Rum", "cost": -3},
+                        {"name": "RockSolidCommon", "cost": 3},
+                        {"name": "WeakPoison", "cost": 2}
 
                     ],
                     "uncommon": [
 
-                        {"name": "gigalith", "cost": 2},
-                        {"name": "fake_gigalith", "cost": 2}
+                        {"name": "DisarmTrap", "cost": 3},
+                        {"name": "RareTeleport", "cost": 4},
+                        {"name": "AgedRum", "cost": -5},
+                        {"name": "QuestionableRum", "cost": 5},
+                        {"name": "RockSolidRare", "cost": 5},
+                        {"name": "Disrupt", "cost": 5},
+                        {"name": "PotentPoison", "cost": 3},
+                        {"name": "Glue", "cost": 3},
+                        {"name": "Switcheroo", "cost": 6},
+                        {"name": "Dejavu", "cost": 4}
 
                     ],
                     "rare": [
 
-                        {"name": "zapdos", "cost": 3},
-                        {"name": "fake_zapdos", "cost": 3}
+                        {"name": "LegendaryTeleport", "cost": 3},
+                        {"name": "CaptainsRum", "cost": -7},
+                        {"name": "Eyepatch", "cost": 4},
+                        {"name": "RockSolidLegendary", "cost": 6},
+                        {"name": "DisruptLegendary", "cost": 6},
+                        {"name": "SleepDart", "cost": 4},
+                        {"name": "TheOlSwitcheroo", "cost": 6},
+                        {"name": "Abduct", "cost": 5}
 
                     ],
                     "epic": [
 
-                        {"name": "kyogre", "cost": 5},
-                        {"name": "fake_kyogre", "cost": 5}
+                        {"name": "Blackout", "cost": 8},
+                        {"name": "DisruptEpic", "cost": 8}
 
                     ]
                 }
@@ -72,7 +89,7 @@
                 el: '#app',
                 data: {
                     possibleCards: allCards, // Assigns cards in variable above to vue datapoint
-                    energy: 3,
+                    energy: 5,
                     results: [],
                     cards: []
                 },
