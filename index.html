@@ -35,7 +35,9 @@
             </div>
         </div>
         <script>
-            // List of all cards in JSON format
+
+            /* -- List of all cards in JSON format -- */
+
             const allCards =
                 {
                     "common": [
@@ -125,7 +127,7 @@
                                 return epicC[e]
                         }
                     },
-                    // Deletes selected card
+                    // Plays selected card and removes energy based on the cost
                     deleteCard(card, i) {
                         if (this.energy >= card.cost) {
                             this.energy -= card.cost
