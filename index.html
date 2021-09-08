@@ -11,8 +11,8 @@
     </head>
     <body>
         <div id="app">
+            <b-button type="is-info is-small" @click="switchLightkeeper()">Switch to {{ switchto }}</b-button>
             <div class="container">
-                <a href="lightkeeper.html">Switch to lightkeeper</a>
                 <div class="columns">
                     <div class="column is-narrow-tablet is-full-mobile">
                         <div class="tag is-large is-warning">
@@ -20,7 +20,7 @@
                         </div>
                     </div>
                     <div class="column">
-                        <b-button type="is-primary" icon-left="dice-6" class="rollButton" @click="rollDie()">Roll Die</b-button>
+                        <b-button v-if="!gamemaster" type="is-primary" icon-left="dice-6" class="rollButton" @click="rollDie()">Roll Die</b-button>
                         <b-button type="is-primary" icon-left="cards" @click="addCard()">Add Card</b-button>
                         <b-button type="is-success" icon-left="plus-circle-outline" @click="energy += 1; updateCookies()">Add 1 Energy</b-button>
                         <b-button type="is-danger" icon-left="minus-circle-outline" @click="removeEnergy()">Remove 1 Energy</b-button>
@@ -30,15 +30,15 @@
                             </template>
                             <b-dropdown-item aria-role="listitem" @click="energy = 5; updateCookies()">Reset Energy</b-dropdown-item>
                             <b-dropdown-item aria-role="listitem" @click="cards = []; updateCookies()">Reset Cards</b-dropdown-item>
-                            <b-dropdown-item aria-role="listitem" @click="results = []; updateCookies()">Reset History</b-dropdown-item>
+                            <b-dropdown-item v-if="!gamemaster" aria-role="listitem" @click="results = []; updateCookies()">Reset History</b-dropdown-item>
                         </b-dropdown>
                     </div>
                 </div>
                 <div id="rollHistory">
                     <p> {{ results.join(', ') }} </p>
                 </div>
-                <div class="cardDiv">
-                    <div class="cardd" v-for="(card, index) in cards">
+                <div class="columns is-multiline">
+                    <div class="column is-half-mobile is-one-fifth-desktop" v-for="(card, index) in cards">
                         <a href="javascript:void(0);" @click="deleteCard(card, index)">
                             <b-image :src="'./cards/' + card.name + '.png'" ratio="1240by1754" class="cardImage" alt="card"></b-image>
                         </a>
@@ -55,7 +55,7 @@
 
             /* -- List of all cards in JSON format -- */
 
-            const allCards =
+            const playerCards =
                 {
                     "common": [
 
@@ -99,27 +99,66 @@
 
                     ]
                 }
+            const keeperCards =
+                {
+                    "common": [
+
+                        {"name": "DejaVuLK", "cost": 4},
+                        {"name": "Discard", "cost": 3},
+                        {"name": "DrainEnergy", "cost": 3},
+                        {"name": "Earthbending", "cost": 1},
+                        {"name": "EnergyDrain", "cost": 3},
+                        {"name": "Landslide", "cost": 3},
+                        {"name": "Petrify", "cost": 3},
+                        {"name": "Tidecaller", "cost": 4}
+
+                    ],
+                    "uncommon": [
+
+                        {"name": "Chaos", "cost": 7},
+                        {"name": "Earthquake", "cost": 6},
+                        {"name": "Highmoon", "cost": 10},
+                        {"name": "Magn10", "cost": 8}
+
+                    ]
+                }
 
             /* -------- Actual Vue Instance --------- */
 
             new Vue({
                 el: '#app',
                 data: {
-                    possibleCards: allCards, // Assigns cards in variable above to vue datapoint
+                    possibleCards: playerCards, // Assigns cards in variable above to vue datapoint
                     energy: 5,
                     results: [],
-                    cards: []
+                    cards: [],
+                    gamemaster: false,
+                    active: false,
+                    switchto: 'Lightkeeper'
                 },
                 // Read cookies
                 beforeMount() {
-                    if ($cookies.get('energy')) {
-                        this.energy = parseInt($cookies.get('energy'))
+                    if (!$cookies.get('gamemaster')) {
+                        if ($cookies.get('energy')) {
+                            this.energy = parseInt($cookies.get('energy'))
+                        }
+                        if ($cookies.get('results')) {
+                            this.results = ($cookies.get('results')).split(',')
+                        }
+                        if ($cookies.get('cards')) {
+                            this.cards = JSON.parse($cookies.get('cards'))
+                        }
                     }
-                    if ($cookies.get('results')) {
-                        this.results = ($cookies.get('results')).split(',')
-                    }
-                    if ($cookies.get('cards')) {
-                        this.cards = JSON.parse($cookies.get('cards'))
+                    else {
+                        if ($cookies.get('gmEnergy')) {
+                            this.energy = parseInt($cookies.get('gmEnergy'))
+                        }
+                        if ($cookies.get('gmCards')) {
+                            this.cards = JSON.parse($cookies.get('gmCards'))
+                        }
+                        this.gamemaster = true
+                        this.possibleCards = keeperCards
+                        this.switchto = 'Player'
                     }
                 },
                 // Main functions
@@ -135,11 +174,18 @@
                     rnd() {
                         let num = Math.floor(Math.random() * 100)
                         let rarity
-                        if (num <= 50) rarity = 'common'
-                        else if (num <= 80) rarity = 'uncommon'
-                        else if (num <= 95) rarity = 'rare'
-                        else rarity = 'epic'
-                        return [rarity, this.selectImage(rarity)]
+                        if (!this.gamemaster) {
+                            if (num <= 50) rarity = 'common'
+                            else if (num <= 80) rarity = 'uncommon'
+                            else if (num <= 95) rarity = 'rare'
+                            else rarity = 'epic'
+                            return [rarity, this.selectImage(rarity)]
+                        }
+                        else {
+                            if (num <= 75) rarity = 'common'
+                            else rarity = 'uncommon'
+                            return [rarity, this.selectImage(rarity)]
+                        }
                     },
                     selectImage(num){
                         let commonC = this.possibleCards.common,
@@ -186,11 +232,33 @@
                         this.updateCookies()
 
                     },
+                    switchLightkeeper() {
+                        this.gamemaster = !this.gamemaster
+                        if (!this.gamemaster) {
+                            this.cards = JSON.parse($cookies.get('cards')) ?? JSON.parse('[]')
+                            this.energy = $cookies.get('energy') ?? 5
+                            this.possibleCards = playerCards
+                            this.switchto = 'Lightkeeper'
+                        }
+                        else {
+                            this.cards = JSON.parse($cookies.get('gmCards')) ?? JSON.parse('[]')
+                            this.energy = $cookies.get('gmEnergy') ?? 1
+                            this.possibleCards = keeperCards
+                            this.switchto = 'Player'
+                        }
+                        this.updateCookies()
+                    },
                     // Sets cookies to new values
                     updateCookies() {
-                        $cookies.set('energy', this.energy)
-                        $cookies.set('results', this.results)
-                        $cookies.set('cards', JSON.stringify(this.cards))
+                        if (!this.gamemaster) {
+                            $cookies.set('energy', this.energy)
+                            $cookies.set('results', this.results)
+                            $cookies.set('cards', JSON.stringify(this.cards))
+                        }
+                        else {
+                            $cookies.set('gmEnergy', this.energy)
+                            $cookies.set('gmCards', JSON.stringify(this.cards))
+                        }
                     },
                 }
             })
