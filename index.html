@@ -35,7 +35,7 @@
                     </div>
                 </div>
                 <div id="rollHistory">
-                    <p> {{ results.join(', ') }} </p>
+                    <p> {{ results.join(', ') }} </p></br>
                 </div>
                 <div class="block">
                     <div class="columns is-mobile is-multiline">
@@ -249,13 +249,13 @@
                         this.gamemaster = !this.gamemaster
                         if (!this.gamemaster) {
                             this.cards = JSON.parse($cookies.get('cards')) ?? JSON.parse('[]')
-                            this.energy = $cookies.get('energy') ?? 5
+                            this.energy = parseInt($cookies.get('energy')) || 5
                             this.possibleCards = playerCards
                             this.switchto = 'Lightkeeper'
                         }
                         else {
                             this.cards = JSON.parse($cookies.get('gmCards')) ?? JSON.parse('[]')
-                            this.energy = $cookies.get('gmEnergy') ?? 1
+                            this.energy = parseInt($cookies.get('gmEnergy')) || 1
                             this.possibleCards = keeperCards
                             this.switchto = 'Player'
                         }
@@ -267,10 +267,12 @@
                             $cookies.set('energy', this.energy)
                             $cookies.set('results', this.results)
                             $cookies.set('cards', JSON.stringify(this.cards))
+                            $cookies.set('gamemaster', false)
                         }
                         else {
                             $cookies.set('gmEnergy', this.energy)
                             $cookies.set('gmCards', JSON.stringify(this.cards))
+                            $cookies.set('gamemaster', true)
                         }
                     }
                 }

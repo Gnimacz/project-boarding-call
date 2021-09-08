@@ -22,3 +22,7 @@ body {
 .energyTag {
     transition: all 0.3s;
 }
+
+#rollHistory {
+    color: white;
+}
