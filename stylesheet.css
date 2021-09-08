@@ -10,3 +10,15 @@ body {
 #energyText {
     max-width: 375px;
 }
+
+.columns.is-variable .column {
+    padding: var(--columnGap);
+}
+
+.react {
+    background-color: orange !important;
+}
+
+.energyTag {
+    transition: all 0.3s;
+}
