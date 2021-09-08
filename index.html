@@ -37,11 +37,13 @@
                 <div id="rollHistory">
                     <p> {{ results.join(', ') }} </p>
                 </div>
-                <div class="columns is-multiline">
-                    <div class="column is-half-mobile is-one-fifth-desktop" v-for="(card, index) in cards">
-                        <a href="javascript:void(0);" @click="deleteCard(card, index)">
-                            <b-image :src="'./cards/' + card.name + '.png'" ratio="1240by1754" class="cardImage" alt="card"></b-image>
-                        </a>
+                <div class="block">
+                    <div class="columns is-mobile is-multiline">
+                        <div class="column is-half-mobile is-one-fifth-desktop" v-for="(card, index) in cards">
+                            <a href="javascript:void(0);" @click="deleteCard(card, index)">
+                                <b-image :src="'./cards/' + card.name + '.png'" ratio="1240by1754" class="cardImage" alt="card"></b-image>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
