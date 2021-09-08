@@ -15,13 +15,13 @@
             <div class="container">
                 <div class="columns">
                     <div class="column is-narrow-tablet is-full-mobile">
-                        <div class="tag is-large is-warning">
+                        <div :class="{ react: isReacting }" class="tag is-large is-warning energyTag">
                             <p>{{ energy }} </p><b-icon icon="flash"></b-icon>
                         </div>
                     </div>
-                    <div class="column">
+                    <div class="column buttons">
                         <b-button v-if="!gamemaster" type="is-primary" icon-left="dice-6" class="rollButton" @click="rollDie()">Roll Die</b-button>
-                        <b-button type="is-primary" icon-left="cards" @click="addCard()">Add Card</b-button>
+                        <b-button type="is-primary" icon-left="cards" @click="addCard()">Draw Card</b-button>
                         <b-button type="is-success" icon-left="plus-circle-outline" @click="energy += 1; updateCookies()">Add 1 Energy</b-button>
                         <b-button type="is-danger" icon-left="minus-circle-outline" @click="removeEnergy()">Remove 1 Energy</b-button>
                         <b-dropdown :triggers="['hover']" aria-role="list">
@@ -136,7 +136,18 @@
                     cards: [],
                     gamemaster: false,
                     active: false,
-                    switchto: 'Lightkeeper'
+                    switchto: 'Lightkeeper',
+                    isReacting: false
+                },
+                watch: {
+                    energy: function() {
+                        console.log('test')
+                        this.isReacting = true
+                        setTimeout(function(){
+                            this.isReacting = false
+                        }.bind(this),500);
+
+                    }
                 },
                 // Read cookies
                 beforeMount() {
@@ -261,7 +272,7 @@
                             $cookies.set('gmEnergy', this.energy)
                             $cookies.set('gmCards', JSON.stringify(this.cards))
                         }
-                    },
+                    }
                 }
             })
         </script>
