@@ -21,21 +21,15 @@
                     </div>
                     <div class="column buttons">
                         <b-button v-if="!gamemaster" type="is-primary" icon-left="dice-6" class="rollButton" @click="rollDie()">Roll Die</b-button>
-                        <b-button type="is-primary" icon-left="cards" @click="addCard()">Draw Card</b-button>
-                        <b-button type="is-success" icon-left="plus-circle-outline" @click="energy += 1; updateCookies()">Add 1 Energy</b-button>
-                        <b-button type="is-danger" icon-left="minus-circle-outline" @click="removeEnergy()">Remove 1 Energy</b-button>
-                        <b-dropdown :triggers="['hover']" aria-role="list">
-                            <template #trigger>
-                                <b-button label="Reset All" type="is-danger is-light" icon-left="history" :icon-right="active ? 'menu-up' : 'menu-down'" @click="energy = 5; results = []; cards = []; updateCookies()"/>
-                            </template>
-                            <b-dropdown-item aria-role="listitem" @click="energy = 5; updateCookies()">Reset Energy</b-dropdown-item>
-                            <b-dropdown-item aria-role="listitem" @click="cards = []; updateCookies()">Reset Cards</b-dropdown-item>
-                            <b-dropdown-item v-if="!gamemaster" aria-role="listitem" @click="results = []; updateCookies()">Reset History</b-dropdown-item>
-                        </b-dropdown>
+                        <b-button v-if="!gamemaster" type="is-primary" icon-left="cards" @click="addCard()">Draw Card</b-button>
+                        <b-button type="is-success is-light" icon-left="plus-circle-outline" @click="energy += 1; updateCookies()">Add 1 Energy</b-button>
+                        <b-button type="is-danger is-light" icon-left="minus-circle-outline" @click="removeEnergy()">Remove 1 Energy</b-button>
+                        <b-button type="is-success" icon-left="arrow-right" @click="endTurn()">End turn</b-button>
+                        <b-button type="is-danger" icon-left="history" @click="resetAll()">Reset</b-button>
                     </div>
                 </div>
-                <div id="rollHistory">
-                    <p> {{ results.join(', ') }} </p></br>
+                <div id="rollHistory" v-show="!gamemaster">
+                    <p> {{ results.join(', ') }} </p><br>
                 </div>
                 <div class="block">
                     <div class="columns is-mobile is-multiline">
@@ -137,7 +131,8 @@
                     gamemaster: false,
                     active: false,
                     switchto: 'Lightkeeper',
-                    isReacting: false
+                    isReacting: false,
+                    gmTurn: 1
                 },
                 watch: {
                     energy: function() {
@@ -151,7 +146,7 @@
                 },
                 // Read cookies
                 beforeMount() {
-                    if (!$cookies.get('gamemaster')) {
+                    if (!JSON.parse($cookies.get('gamemaster'))) {
                         if ($cookies.get('energy')) {
                             this.energy = parseInt($cookies.get('energy'))
                         }
@@ -230,12 +225,29 @@
 
                         }
                     },
+                    endTurn() {
+                        if (!this.gamemaster) this.energy = 5
+                        else {
+                            this.gmTurn++
+                            this.energy = this.gmTurn
+                            this.cards.push({"name": "common/Earthbending", "cost": 1})
+                            this.addCard()
+                        }
+                        this.updateCookies()
+                    },
                     // Removes Energy if possible
                     removeEnergy() {
                         if (this.energy > 0) {
                             this.energy -= 1
                         }
                         this.updateCookies()
+                    },
+                    resetAll() {
+                        this.cards = []
+                        this.results = []
+                        this.energy = (!this.gamemaster) ? 5 : 1
+                        this.updateCookies()
+                        if (this.gamemaster) this.gmTurn = 1
                     },
                     // Rolls random number between 1-6
                     rollDie() {
