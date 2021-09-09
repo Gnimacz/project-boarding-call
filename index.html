@@ -247,7 +247,7 @@
                         this.results = []
                         this.energy = (!this.gamemaster) ? 5 : 1
                         this.updateCookies()
-                        if (this.gamemaster) this.gmTurn = 1
+                        if (this.gamemaster) this.gmTurn = 1 && this.cards.push({"name": "common/Earthbending", "cost": 1})
                     },
                     // Rolls random number between 1-6
                     rollDie() {
