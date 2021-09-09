@@ -266,7 +266,7 @@
                             this.switchto = 'Lightkeeper'
                         }
                         else {
-                            this.cards = JSON.parse($cookies.get('gmCards')) ?? JSON.parse('[]')
+                            this.cards = JSON.parse($cookies.get('gmCards')) ?? [{"name": "common/Earthbending", "cost": 1}]
                             this.energy = parseInt($cookies.get('gmEnergy')) || 1
                             this.possibleCards = keeperCards
                             this.switchto = 'Player'
